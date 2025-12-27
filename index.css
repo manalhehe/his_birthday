@@ -1,0 +1,323 @@
+/* --- CONFIGURATION DE BASE --- */
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fce4ec;
+    overflow: hidden;
+    font-family: 'Georgia', serif;
+}
+
+/* --- PHOTO DE FOND (MÉMOIRE) --- */
+.background-photo {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image: url('pic/notre-photo.jpg'); 
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    filter: blur(4px) brightness(0.6);
+    transition: opacity 3s ease;
+    z-index: -1;
+}
+
+.show-memory {
+    opacity: 0.4 !important; 
+}
+
+/* --- ÉCRAN D'ACCUEIL --- */
+#welcome-screen {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100vh;
+    background-color: #fce4ec;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    text-align: center;
+    transition: opacity 1s ease;
+}
+
+.welcome-content h1 {
+    color: #d32f2f;
+    font-size: 2.8rem;
+    margin-bottom: 10px;
+    animation: fadeInDown 1s ease-out;
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.start-btn {
+    padding: 15px 45px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: #d32f2f;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(211, 47, 47, 0.3);
+    animation: pulse-red 2s infinite;
+}
+
+@keyframes pulse-red {
+    0% { box-shadow: 0 0 0 0 rgba(211, 47, 47, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(211, 47, 47, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(211, 47, 47, 0); }
+}
+
+/* --- EFFETS DE SOURIS --- */
+.mouse-sparkle {
+    position: fixed;
+    pointer-events: none;
+    z-index: 3000;
+    font-size: 10px;
+    color: #fbc02d;
+    animation: sparkleFall 1s forwards;
+}
+
+@keyframes sparkleFall {
+    0% { transform: translate(0,0) scale(1); opacity: 1; }
+    100% { transform: translate(0, 30px) scale(0); opacity: 0; }
+}
+
+/* --- TEXTE MACHINE À ÉCRIRE --- */
+#typewriter-text {
+    position: absolute;
+    top: 10%;
+    width: 80%;
+    text-align: center;
+    font-size: 1.6rem;
+    color: #d32f2f;
+    font-style: italic;
+    z-index: 500;
+    transition: opacity 0.5s ease;
+}
+
+/* --- CONTENU PRINCIPAL --- */
+#main-content {
+    width: 100%;
+    height: 100vh;
+    display: none; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* --- ENVELOPPE ET ÉCRITURE FIXE --- */
+.envelope-wrapper {
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+}
+
+.envelope-container {
+    position: relative;
+    width: 350px;
+    height: 250px;
+}
+
+.emotional-text {
+    position: absolute;
+    top: 25px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    color: #880e4f;    
+    font-style: italic;
+    font-size: 1rem;
+    z-index: 5;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.emotional-text span {
+    display: block;
+    position: relative; /* Pour que les lignes s'empilent naturellement */
+    opacity: 1;
+}
+
+/* --- SCEAU ET IMAGES --- */
+.envelope-image {
+    position: absolute;
+    width: 100%; height: 100%;
+    z-index: 2;
+    transition: opacity 0.5s ease;
+}
+
+.envelope-image img { width: 100%; height: 100%; object-fit: contain; }
+
+.wax-seal {
+    position: absolute;
+    top: 68%; left: 50%;
+    width: 70px; height: 70px;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    cursor: pointer;
+    animation: heartbeat 2s infinite ease-in-out;
+}
+
+@keyframes heartbeat {
+    0%, 70%, 100% { transform: translate(-50%, -50%) scale(1); }
+    14%, 42% { transform: translate(-50%, -50%) scale(1.1); }
+}
+
+/* --- LA LETTRE --- */
+.letter {
+    position: fixed;
+    top: 50%; left: 50%;
+    width: 80vw; max-width: 450px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, -50%) scale(0.8);
+    z-index: 100;
+    transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.letter img { width: 100%; height: auto; border-radius: 5px; }
+
+/* --- ÉTAT OUVERT --- */
+.open .envelope-image, 
+.open .wax-seal,
+.open .emotional-text {
+    opacity: 0 !important;
+    pointer-events: none;
+}
+
+.open .letter {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* --- POLAROID (FIXE ET VISIBLE) --- */
+
+
+/* --- POLAROID ANIMATION (APPARAIT PUIS DISPARAIT) --- */
+/* --- POLAROID PETIT ET PROCHE DE LA LETTRE --- */
+.polaroid-frame {
+    position: fixed; 
+    top: 70%;        /* Aligné au centre vertical de la lettre */
+    left: 72%;       /* Juste à la bordure droite de la lettre */
+    width: 80px;     /* Nettement plus petit que la lettre (450px) */
+    background: white;
+    padding: 5px 5px 15px 5px; /* Bordures fines */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    transform: translate(-50%, -50%) rotate(10deg);
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: none; /* On laisse l'animation gérer le mouvement */
+}
+
+.polaroid-frame img {
+    width: 100%;
+    display: block;
+    border: 1px solid #f0f0f0;
+}
+
+/* --- ANIMATION : APPARITION -> ATTENTE -> DISPARITION OMBRE --- */
+.polaroid-show {
+    animation: polaroidSmallLife 5s forwards; 
+}
+
+@keyframes polaroidSmallLife {
+    0% { 
+        opacity: 0; 
+        transform: translate(-50%, -30%) rotate(0deg) scale(0.5); 
+        filter: blur(10px);
+    }
+    10% { 
+        opacity: 1; 
+        transform: translate(-50%, -50%) rotate(10deg) scale(1); 
+        filter: blur(0px);
+    } /* Apparition à côté de la lettre */
+    85% { 
+        opacity: 1; 
+        transform: translate(-50%, -50%) rotate(10deg) scale(1); 
+        filter: blur(0px);
+    } /* Reste visible pendant que l'on lit la lettre */
+    100% { 
+        opacity: 0; 
+        transform: translate(-50%, -40%) scale(0.2); 
+        filter: blur(30px); 
+    } /* S'évapore doucement comme une ombre */
+}
+
+/* --- FORMAT MOBILE --- */
+@media (max-width: 600px) {
+    .polaroid-frame {
+        top: 50%;    /* Placé en bas de la lettre sur mobile pour ne pas cacher le texte */
+        left: 50%;
+        width: 50px; /* Encore plus petit sur téléphone */
+    }
+}
+
+/* --- CŒURS ET VIGNETTE --- */
+.vignette {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    box-shadow: inset 0 0 150px rgba(0,0,0,0.5);
+    pointer-events: none;
+    z-index: 400;
+    opacity: 0;
+    transition: opacity 2s ease;
+}
+
+.vignette-show { opacity: 1 !important; }
+
+.hearts-container {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 150;
+}
+
+.heart {
+    position: absolute;
+    bottom: -50px;
+    animation: flyUp 8s ease-out forwards;
+}
+
+@keyframes flyUp {
+    0% { transform: translateY(0) rotate(0deg) scale(2); opacity: 1; }
+    100% { transform: translateY(-110vh) rotate(360deg) scale(1.5); opacity: 0; }
+}
+
+/* --- COMPTEUR --- */
+#counter {
+    position: fixed;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+    color: #880e4f;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 2s ease;
+}
+
+/* --- FORMAT MOBILE --- */
+@media (max-width: 600px) {
+    .welcome-content h1 { font-size: 1.8rem; padding: 0 20px; }
+    .envelope-container { width: 280px; height: 200px; }
+    .emotional-text { top: 15px; left: 15px; font-size: 0.8rem; }
+    .letter { width: 90vw; }
+    #typewriter-text { font-size: 1.1rem; top: 5%; width: 90%; }
+    .wax-seal { width: 50px; height: 50px; }
+    .polaroid-frame { width: 120px; right: 20px; }
+    .polaroid-show { bottom: 60px !important; }
+}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Perfect Birthday Surprise</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body id="page-body">
+    <div id="bg-memory" class="background-photo"></div>
+    <div class="vignette"></div>
+
+    <div id="welcome-screen">
+        <div class="welcome-content">
+            <h1>For someone special...</h1>
+            <p>You have received a secret message</p>
+            <button class="start-btn" onclick="startExperience()">Click to discover</button>
+        </div>
+    </div>
+
+    <audio id="monAudio" loop>
+        <source src="audio/audio.mpeg" type="audio/mpeg">
+    </audio>
+
+    <div id="main-content" style="display:none; opacity:0;">
+        <div id="typewriter-text"></div>
+        <div id="hearts" class="hearts-container"></div>
+
+        <div class="envelope-wrapper">
+            <div class="envelope-container" id="envelope">
+                
+                <div id="emotional-scroll" class="emotional-text">
+                    <span>A message for you...</span>
+                    <span>From the bottom of my heart</span>
+                    <span>Open me ❤️</span>
+                </div>
+
+                <div class="letter">
+                    <img src="pic/lettre.jpg" alt="Letter">
+                    <div class="secret-heart" onclick="showFinalSecret()">❤️</div>
+                </div>
+                
+                <div class="envelope-image">
+                    <img src="pic/lettre (2).jpg" alt="Envelope">
+                </div>
+                
+                <div class="wax-seal" onclick="toggleEnvelope()"></div>
+            </div>
+        </div>
+
+        <div id="counter"></div>
+
+        <div id="polaroid" class="polaroid-frame">
+            <img src="pic/us.jpg" alt="Memory">
+            <div class="click-hint">Remember?... </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
