@@ -1,5 +1,5 @@
 let i = 0;
-let message = "Happy Eid, my love! I have prepared something special for you because distance means nothing when someone means everything. I hope you like it... ❤️"; 
+let message = "Happy birthDay, my love! I have prepared something special for you because distance means nothing when someone means everything. I hope you like it... <3"; 
 let speed = 70;
 
 // 1. Mouse Sparkle Trail
@@ -121,7 +121,7 @@ function startMeetCountdown() {
 
 // 7. Final Secret Message Popup
 function showFinalSecret() {
-    alert("In every lifetime, I would choose you. Happy Eid, my soulmate. I'm counting the days until we finally meet. ❤️");
+    alert("In every lifetime, I would choose you. Happy birthday, my soulmate. I'm counting the days until we finally meet. ❤️");
 }
 
 // TRIGGER COUNTDOWN ON LOAD
