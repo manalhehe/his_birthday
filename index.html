@@ -10,14 +10,18 @@
     <div id="bg-memory" class="background-photo"></div>
     <div class="vignette"></div>
 
+    
     <div id="welcome-screen">
-        <div class="welcome-content">
-            <h1>For someone special...</h1>
-            <p>You have received a secret message</p>
-            <button class="start-btn" onclick="startExperience()">Click to discover</button>
-        </div>
+    <div class="welcome-content">
+        <h1>For someone special...</h1>
+        
+        <div id="meet-countdown">Loading countdown...</div>
+        
+        <p>Until we finally meet in 2028 ❤️</p>
+        <button class="start-btn" onclick="startExperience()">Click to discover</button>
     </div>
-
+</div>
+</div>
     <audio id="monAudio" loop>
         <source src="audio/audio.mpeg" type="audio/mpeg">
     </audio>
@@ -48,7 +52,7 @@
             </div>
         </div>
 
-        <div id="counter"></div>
+        <div id="meet-countdown" class="countdown-style"></div>
 
         <div id="polaroid" class="polaroid-frame">
             <img src="pic/us.jpg" alt="Memory">

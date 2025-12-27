@@ -1,8 +1,8 @@
 let i = 0;
-let message = "Happy Birthday! I have prepared something special for you, I HOPE U LIKE IT ..."; 
+let message = "Happy Eid, my love! I have prepared something special for you because distance means nothing when someone means everything. I hope you like it... ❤️"; 
 let speed = 70;
 
-// 1. Trace de paillettes avec la souris
+// 1. Mouse Sparkle Trail
 document.addEventListener('mousemove', function(e) {
     const sparkle = document.createElement('div');
     sparkle.innerHTML = '✨';
@@ -13,7 +13,7 @@ document.addEventListener('mousemove', function(e) {
     setTimeout(() => sparkle.remove(), 1000);
 });
 
-// 2. Lancement de l'expérience (Cliquer sur le bouton d'accueil)
+// 2. Start the Experience (When button is clicked)
 function startExperience() {
     const welcome = document.getElementById('welcome-screen');
     const main = document.getElementById('main-content');
@@ -32,14 +32,13 @@ function startExperience() {
         setTimeout(() => { 
             main.style.opacity = '1'; 
             typeWriter(); 
-            updateCounter(); 
-            // Affiche le texte fixe sur l'enveloppe dès le début
+            // Show the fixed text on the envelope immediately
             if (scroll) scroll.style.opacity = "1";
         }, 50);
     }, 1000);
 }
 
-// 3. Animation machine à écrire
+// 3. Typewriter Animation
 function typeWriter() {
     if (i < message.length) {
         document.getElementById("typewriter-text").innerHTML += message.charAt(i);
@@ -48,7 +47,7 @@ function typeWriter() {
     }
 }
 
-// 4. Ouverture de l'enveloppe
+// 4. Opening the Envelope
 function toggleEnvelope() {
     const env = document.getElementById('envelope');
     const typewriter = document.getElementById('typewriter-text');
@@ -58,20 +57,12 @@ function toggleEnvelope() {
     const bgMemory = document.getElementById('bg-memory');
     const vignette = document.querySelector('.vignette');
 
-    // Ouvre l'enveloppe
     env.classList.add('open');
-    
-    // Affiche la photo de fond et le contour sombre
     if (bgMemory) bgMemory.classList.add('show-memory');
     if (vignette) vignette.classList.add('vignette-show');
-    
-    // Cache le texte typewriter pour laisser place à la lettre
     if (typewriter) typewriter.style.opacity = '0';
-    
-    // Cache le petit texte de l'enveloppe quand elle est ouverte
     if (scroll) scroll.style.opacity = '0';
 
-    // Augmentation progressive du volume de la musique
     let fadeIn = setInterval(() => {
         if (audio && audio.volume < 0.8) {
             audio.volume += 0.05;
@@ -80,21 +71,18 @@ function toggleEnvelope() {
         }
     }, 400);
 
-    // APPARITION DU POLAROID (Fixe et visible longtemps)
     if (polaroid) {
-    // Le Polaroid se déclenche 2 secondes après l'ouverture
-    setTimeout(() => { 
-    polaroid.classList.add('polaroid-show'); 
-}, 1500); // 1.5 seconde après l'ouverture
-}
-
+        setTimeout(() => { 
+            polaroid.classList.add('polaroid-show'); 
+        }, 1500);
+    }
     createHearts(); 
 }
 
-// 5. Explosion de cœurs et de mots doux
+// 5. Explosion of Hearts
 function createHearts() {
     const container = document.getElementById('hearts');
-    const memories = ['❤️', '11/04/25', '✨', 'HMIIIZA', 'MANAL', 'Forever']; 
+    const memories = ['❤️', '11/04/25', '✨', 'Hmiiiza', 'Manal', 'Forever', 'Love']; 
     
     for (let i = 0; i < 40; i++) { 
         const heart = document.createElement('div');
@@ -110,21 +98,31 @@ function createHearts() {
     }
 }
 
-// 6. Le compteur de jours
-function updateCounter() {
-    const startDate = new Date("2025-04-11"); // Date de votre rencontre
-    const counterElement = document.getElementById('counter');
-    const now = new Date();
-    const diff = now - startDate;
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    
-    if (counterElement) {
-        counterElement.innerHTML = days + " days of loving you";
-        counterElement.style.opacity = "1";
-    }
+// 6. THE COUNTDOWN (Starts immediately on Page Load)
+function startMeetCountdown() {
+    const meetDate = new Date("January 1, 2028 00:00:00").getTime();
+    const countdownElement = document.getElementById('meet-countdown');
+
+    if (!countdownElement) return;
+
+    setInterval(function() {
+        const now = new Date().getTime();
+        const distance = meetDate - now;
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // This will update the text every second
+        countdownElement.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s left until 2028 ❤️";
+    }, 1000);
 }
 
-// 7. Message secret final au clic sur le petit coeur
+// 7. Final Secret Message Popup
 function showFinalSecret() {
-    alert("In every lifetime, I would choose you. Happy Birthday, my soulmate. ❤️");
+    alert("In every lifetime, I would choose you. Happy Eid, my soulmate. I'm counting the days until we finally meet. ❤️");
 }
+
+// TRIGGER COUNTDOWN ON LOAD
+document.addEventListener('DOMContentLoaded', startMeetCountdown);
