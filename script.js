@@ -2,7 +2,7 @@ let i = 0;
 let message = "Happy birthDay, my love! I have prepared something special for you because distance means nothing when someone means everything. I hope you like it... <3"; 
 let speed = 70;
 
-// 1. Mouse Sparkle Trail
+// 1. MOUSE SPARKLE TRAIL
 document.addEventListener('mousemove', function(e) {
     const sparkle = document.createElement('div');
     sparkle.innerHTML = '✨';
@@ -13,20 +13,61 @@ document.addEventListener('mousemove', function(e) {
     setTimeout(() => sparkle.remove(), 1000);
 });
 
-// 2. Start Phase 1 (Welcome -> Birthday Message + Balloon Explosion)
+// 2. VOICE NOTE CONTROL
+function playVoice() {
+    const voice = document.getElementById('voiceNote'); // Your voice recording
+    const btn = document.getElementById('v-btn');
+    const bgMusic = document.getElementById('monAudio'); // Your background music
+    
+    if (!voice) return;
+
+    if (voice.paused) {
+        // Lower background music volume while voice plays
+        if (bgMusic) bgMusic.volume = 0.1; 
+        
+        voice.play();
+        btn.innerHTML = "<span>❤️</span> Playing...";
+    } else {
+        voice.pause();
+        
+        // Reset background music volume when voice is paused
+        if (bgMusic) bgMusic.volume = 0.3;
+        
+        btn.innerHTML = "<span>🔊</span> Listen to my voice";
+    }
+
+    // Reset everything when the voice note reaches the end
+    voice.onended = () => {
+        btn.innerHTML = "<span>🔊</span> Listen to my voice";
+        if (bgMusic) bgMusic.volume = 0.3;
+    };
+}
+
+// 3. START PHASE 1 (Welcome -> Second Page + MUSIC STARTS HERE)
 function startExperience() {
     const welcome = document.getElementById('welcome-screen');
     const second = document.getElementById('second-page');
+    const audio = document.getElementById('monAudio'); // Background music
+
+    // --- MUSIC STARTS ON SECOND PAGE ---
+    if(audio) { 
+        audio.volume = 0.3; 
+        audio.play().catch(error => console.log("Audio play failed: ", error)); 
+    }
 
     welcome.style.opacity = '0';
     setTimeout(() => {
         welcome.style.display = 'none';
         second.style.display = 'flex';
         
-        // --- START THE NEW COUNTER ON THE SECOND PAGE ---
+        // Ensure styling for centering (stacks them)
+        second.style.flexDirection = 'column';
+        second.style.justifyContent = 'center';
+        second.style.alignItems = 'center';
+
         startLovingCounter();
 
-        // --- BALLOON EXPLOSION ---
+        // BALLOON EXPLOSION (19 Balloons)
         for(let k = 0; k < 19; k++) {
             setTimeout(() => {
                 createSingleBalloon();
@@ -37,17 +78,15 @@ function startExperience() {
     }, 1000);
 }
 
-// Start Phase 2 (Birthday Message -> Envelope/Main Content)
+// 4. START PHASE 2 (Second Page -> Envelope/Main Content)
 function startMainExperience() {
     const second = document.getElementById('second-page');
     const main = document.getElementById('main-content');
-    const audio = document.getElementById('monAudio');
+    const voice = document.getElementById('voiceNote');
     const scroll = document.getElementById('emotional-scroll');
 
-    if(audio) { 
-        audio.volume = 0.3; 
-        audio.play(); 
-    }
+    // Stop voice note if playing
+    if (voice) voice.pause();
 
     second.style.opacity = '0';
     setTimeout(() => {
@@ -61,7 +100,7 @@ function startMainExperience() {
     }, 1000);
 }
 
-// 3. Typewriter Animation
+// 5. TYPEWRITER ANIMATION
 function typeWriter() {
     if (i < message.length) {
         document.getElementById("typewriter-text").innerHTML += message.charAt(i);
@@ -70,7 +109,7 @@ function typeWriter() {
     }
 }
 
-// 4. Opening the Envelope
+// 6. OPENING THE ENVELOPE
 function toggleEnvelope() {
     const env = document.getElementById('envelope');
     const typewriter = document.getElementById('typewriter-text');
@@ -86,8 +125,9 @@ function toggleEnvelope() {
     if (typewriter) typewriter.style.opacity = '0';
     if (scroll) scroll.style.opacity = '0';
 
+    // Increase music volume slightly when opening the letter
     let fadeIn = setInterval(() => {
-        if (audio && audio.volume < 0.8) {
+        if (audio && audio.volume < 0.6) {
             audio.volume += 0.05;
         } else {
             clearInterval(fadeIn);
@@ -102,7 +142,7 @@ function toggleEnvelope() {
     createHearts(); 
 }
 
-// 5. Explosion of Hearts
+// 7. EXPLOSION OF HEARTS
 function createHearts() {
     const container = document.getElementById('hearts');
     const memories = ['❤️', '11/04/25', '✨', 'Hmiiiza', 'Manal', 'HOME', 'Love']; 
@@ -121,11 +161,10 @@ function createHearts() {
     }
 }
 
-// 6. THE ORIGINAL 2028 COUNTDOWN (KEPT EXACTLY THE SAME)
+// 8. THE ORIGINAL 2028 COUNTDOWN (PAGE 1)
 function startMeetCountdown() {
     const meetDate = new Date("January 1, 2028 00:00:00").getTime();
     const countdownElement = document.getElementById('meet-countdown');
-    const finalCountdown = document.getElementById('meet-countdown-final');
 
     if (!countdownElement) return;
 
@@ -138,13 +177,11 @@ function startMeetCountdown() {
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        const text = days + "d " + hours + "h " + minutes + "m " + seconds + "s left until 2028 ";
-        countdownElement.innerHTML = text;
-        if (finalCountdown) finalCountdown.innerHTML = text;
+        countdownElement.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s left until 2028 ";
     }, 1000);
 }
 
-// NEW: THE LOVING U COUNTER (FOR SECOND PAGE)
+// 9. THE LOVING U COUNTER (PAGE 2)
 function startLovingCounter() {
     const lovingElement = document.getElementById('loving-u-counter');
     const startDate = new Date("April 16, 2025 00:00:00").getTime();
@@ -159,7 +196,7 @@ function startLovingCounter() {
     }, 1000);
 }
 
-// 7. SINGLE BALLOON GENERATOR
+// 10. SINGLE BALLOON GENERATOR
 function createSingleBalloon() {
     const container = document.getElementById('balloon-container');
     if (!container) return;
@@ -181,12 +218,7 @@ function createSingleBalloon() {
     setTimeout(() => { balloon.remove(); }, duration * 1000);
 }
 
-// 8. Final Secret Message Popup
-function showFinalSecret() {
-    alert("In every lifetime, I would choose you. Happy birthday, my soulmate. I'm counting the days until we finally meet. ❤️");
-}
-
-// TRIGGER ON LOAD (Only the original countdown)
+// TRIGGER ON LOAD
 document.addEventListener('DOMContentLoaded', () => {
     startMeetCountdown();
 });

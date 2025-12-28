@@ -11,6 +11,13 @@
     <div id="bg-memgitory" class="background-photo"></div>
     <div class="vignette"></div>
 
+    <audio id="monAudio" loop>
+    <source src="audio/audio.mpeg" type="audio/mpeg">
+</audio>
+
+<audio id="voiceNote">
+    <source src="audio/MYVOICE.mpeg" type="audio/mpeg">
+</audio>
     <div id="welcome-screen">
         <div class="welcome-content">
             <h1>For someone special...</h1>
@@ -20,51 +27,46 @@
         </div>
     </div>
 
-    <div id="second-page" style="display:none;">
+    <div id="second-page" style="display:none; opacity: 0;">
         <div class="welcome-content">
             <p style="font-size: 1.6rem; color: #d32f2f; padding: 20px; font-family: 'Georgia', serif; line-height: 1.5;">
                 The fact that you’ve received this link means today is your birthday! <br>
                 I prepared something special just for you... ❤️
             </p>
+            
+            <button class="voice-btn" id="v-btn" onclick="playVoice()">
+                <span>🔊</span> Listen to my voice
+            </button>
+
             <div id="loving-u-counter"></div> 
             <br><br>
             <button class="start-btn" onclick="startMainExperience()">Click to see</button>
         </div>
     </div>
 
-    <audio id="monAudio" loop>
-        <source src="audio/audio.mpeg" type="audio/mpeg">
-    </audio>
-
     <div id="main-content" style="display:none; opacity:0;">
         <div id="typewriter-text"></div>
         <div id="hearts" class="hearts-container"></div>
-
         <div class="envelope-wrapper">
             <div class="envelope-container" id="envelope">
-                
                 <div id="emotional-scroll" class="emotional-text">
                     <span>A message for you...</span>
                     <span>From the bottom of my heart</span>
                     <span>Open me ❤️</span>
                 </div>
-
                 <div class="letter">
                     <img src="pic/lettre.jpg" alt="Letter">
                     <div class="secret-heart" onclick="showFinalSecret()">❤️</div>
                 </div>
-                
                 <div class="envelope-image">
                     <img src="pic/lettre (2).jpg" alt="Envelope">
                 </div>
-                
                 <div class="wax-seal" onclick="toggleEnvelope()"></div>
             </div>
         </div>
-
         <div id="polaroid" class="polaroid-frame">
             <img src="pic/firstTalk.jpg" alt="Memory">
-            <div class="click-hint">Remember?... </div>
+            <div class="click-hint">Remember? </div>
         </div>
     </div>
 
