@@ -13,9 +13,22 @@ document.addEventListener('mousemove', function(e) {
     setTimeout(() => sparkle.remove(), 1000);
 });
 
-// 2. Start the Experience (When button is clicked)
+// 2. Modified: Start Phase 1 (Welcome -> Birthday Message)
 function startExperience() {
     const welcome = document.getElementById('welcome-screen');
+    const second = document.getElementById('second-page');
+
+    welcome.style.opacity = '0';
+    setTimeout(() => {
+        welcome.style.display = 'none';
+        second.style.display = 'flex';
+        setTimeout(() => { second.style.opacity = '1'; }, 50);
+    }, 1000);
+}
+
+// NEW: Start Phase 2 (Birthday Message -> Envelope/Main Content)
+function startMainExperience() {
+    const second = document.getElementById('second-page');
     const main = document.getElementById('main-content');
     const audio = document.getElementById('monAudio');
     const scroll = document.getElementById('emotional-scroll');
@@ -25,20 +38,19 @@ function startExperience() {
         audio.play(); 
     }
 
-    welcome.style.opacity = '0';
+    second.style.opacity = '0';
     setTimeout(() => {
-        welcome.style.display = 'none';
+        second.style.display = 'none';
         main.style.display = 'flex'; 
         setTimeout(() => { 
             main.style.opacity = '1'; 
             typeWriter(); 
-            // Show the fixed text on the envelope immediately
             if (scroll) scroll.style.opacity = "1";
         }, 50);
     }, 1000);
 }
 
-// 3. Typewriter Animation
+// 3. Typewriter Animation (Original)
 function typeWriter() {
     if (i < message.length) {
         document.getElementById("typewriter-text").innerHTML += message.charAt(i);
@@ -47,7 +59,7 @@ function typeWriter() {
     }
 }
 
-// 4. Opening the Envelope
+// 4. Opening the Envelope (Original)
 function toggleEnvelope() {
     const env = document.getElementById('envelope');
     const typewriter = document.getElementById('typewriter-text');
@@ -79,7 +91,7 @@ function toggleEnvelope() {
     createHearts(); 
 }
 
-// 5. Explosion of Hearts
+// 5. Explosion of Hearts (Original)
 function createHearts() {
     const container = document.getElementById('hearts');
     const memories = ['❤️', '11/04/25', '✨', 'Hmiiiza', 'Manal', 'Forever', 'Love']; 
@@ -98,7 +110,7 @@ function createHearts() {
     }
 }
 
-// 6. THE COUNTDOWN (Starts immediately on Page Load)
+// 6. THE COUNTDOWN (Original)
 function startMeetCountdown() {
     const meetDate = new Date("January 1, 2028 00:00:00").getTime();
     const countdownElement = document.getElementById('meet-countdown');
@@ -114,15 +126,13 @@ function startMeetCountdown() {
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        // This will update the text every second
         countdownElement.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s left until 2028 ❤️";
     }, 1000);
 }
 
-// 7. Final Secret Message Popup
+// 7. Final Secret Message Popup (Original)
 function showFinalSecret() {
     alert("In every lifetime, I would choose you. Happy birthday, my soulmate. I'm counting the days until we finally meet. ❤️");
 }
 
-// TRIGGER COUNTDOWN ON LOAD
 document.addEventListener('DOMContentLoaded', startMeetCountdown);
