@@ -17,24 +17,29 @@ document.addEventListener('mousemove', function(e) {
 function playVoice() {
     const voice = document.getElementById('voiceNote');
     const btn = document.getElementById('v-btn');
-    const audio = document.getElementById('monAudio'); // Background music
+    const bgMusic = document.getElementById('monAudio'); // Background Music
     
     if (!voice) return;
 
     if (voice.paused) {
-        // Lower background music volume while voice plays
-        if (audio) audio.volume = 0.1; 
+        // 1. Lower the background music significantly (to 5% volume)
+        if (bgMusic) bgMusic.volume = 0.05; 
+        
         voice.play();
         btn.innerHTML = "<span>❤️</span> Playing...";
     } else {
         voice.pause();
-        if (audio) audio.volume = 0.3;
+        
+        // 2. Bring background music back to normal (30% volume)
+        if (bgMusic) bgMusic.volume = 0.1;
+        
         btn.innerHTML = "<span>🔊</span> Listen to my voice";
     }
 
+    // 3. Reset volume automatically when the voice note ends
     voice.onended = () => {
         btn.innerHTML = "<span>🔊</span> Listen to my voice";
-        if (audio) audio.volume = 0.3;
+        if (bgMusic) bgMusic.volume = 0.1;
     };
 }
 
