@@ -15,31 +15,26 @@ document.addEventListener('mousemove', function(e) {
 
 // 2. VOICE NOTE CONTROL
 function playVoice() {
-    const voice = document.getElementById('voiceNote'); // Your voice recording
+    const voice = document.getElementById('voiceNote');
     const btn = document.getElementById('v-btn');
-    const bgMusic = document.getElementById('monAudio'); // Your background music
+    const audio = document.getElementById('monAudio'); // Background music
     
     if (!voice) return;
 
     if (voice.paused) {
         // Lower background music volume while voice plays
-        if (bgMusic) bgMusic.volume = 0.1; 
-        
+        if (audio) audio.volume = 0.1; 
         voice.play();
         btn.innerHTML = "<span>❤️</span> Playing...";
     } else {
         voice.pause();
-        
-        // Reset background music volume when voice is paused
-        if (bgMusic) bgMusic.volume = 0.3;
-        
+        if (audio) audio.volume = 0.3;
         btn.innerHTML = "<span>🔊</span> Listen to my voice";
     }
 
-    // Reset everything when the voice note reaches the end
     voice.onended = () => {
         btn.innerHTML = "<span>🔊</span> Listen to my voice";
-        if (bgMusic) bgMusic.volume = 0.3;
+        if (audio) audio.volume = 0.3;
     };
 }
 
@@ -192,7 +187,7 @@ function startLovingCounter() {
         const now = new Date().getTime();
         const diff = now - startDate;
         const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        lovingElement.innerHTML = days + " DAYS OF LOVING U ❤️";
+        lovingElement.innerHTML = days + " DAYS OF LOVING U";
     }, 1000);
 }
 
@@ -217,6 +212,12 @@ function createSingleBalloon() {
     container.appendChild(balloon);
     setTimeout(() => { balloon.remove(); }, duration * 1000);
 }
+function showFinalSecret() {
+
+    alert("In every lifetime, I would choose you. Happy birthday, my soulmate. I'm counting the days until we finally meet. ❤️");
+
+}
+
 
 // TRIGGER ON LOAD
 document.addEventListener('DOMContentLoaded', () => {
