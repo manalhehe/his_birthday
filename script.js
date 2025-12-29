@@ -1,8 +1,61 @@
 let i = 0;
 let message = "Happy birthDay, my love! I have prepared something special for you because distance means nothing when someone means everything. I hope you like it... <3"; 
 let speed = 70;
+let failCount = 0;
 
-// 1. MOUSE SPARKLE TRAIL
+// 1. LOCK SCREEN LOGIC (Password: JOZI)
+function verifyPassword() {
+    const passInput = document.getElementById('entry-pass');
+    const correctPass = "JOZI"; 
+
+    if (passInput.value.trim().toUpperCase() === correctPass) {
+        unlockNow();
+    } else {
+        triggerFailure();
+    }
+}
+
+// This allows him to just press the "Enter" key on his keyboard
+document.getElementById('entry-pass')?.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        verifyPassword();
+    }
+});
+
+function unlockNow() {
+    const lockScreen = document.getElementById('lock-screen');
+    const welcome = document.getElementById('welcome-screen');
+
+    lockScreen.classList.add('unlock-slide'); 
+    
+    setTimeout(() => {
+        lockScreen.style.display = 'none';
+        welcome.style.display = 'flex';
+        setTimeout(() => { welcome.style.opacity = '1'; }, 50);
+    }, 800);
+}
+
+function triggerFailure() {
+    const error = document.getElementById('error-msg');
+    const hint = document.getElementById('hint-msg');
+    const lockBox = document.querySelector('.lock-box');
+    const passInput = document.getElementById('entry-pass');
+
+    failCount++;
+    error.style.display = 'block';
+    lockBox.classList.add('shake-anim');
+
+    if (failCount >= 2) { hint.style.display = 'block'; }
+
+    setTimeout(() => {
+        error.style.display = 'none';
+        lockBox.classList.remove('shake-anim');
+        if(passInput) passInput.value = "";
+    }, 2000);
+}
+
+
+// 2. MOUSE TRAIL
 document.addEventListener('mousemove', function(e) {
     const sparkle = document.createElement('div');
     sparkle.innerHTML = '✨';
@@ -13,79 +66,65 @@ document.addEventListener('mousemove', function(e) {
     setTimeout(() => sparkle.remove(), 1000);
 });
 
-// 2. VOICE NOTE CONTROL
+// 3. AUDIO CONTROLS
 function playVoice() {
     const voice = document.getElementById('voiceNote');
     const btn = document.getElementById('v-btn');
-    const bgMusic = document.getElementById('monAudio'); // Background Music
+    const bgMusic = document.getElementById('monAudio'); 
     
     if (!voice) return;
 
     if (voice.paused) {
-        // 1. Lower the background music significantly (to 5% volume)
-        if (bgMusic) bgMusic.volume = 0.05; 
-        
+        if (bgMusic) bgMusic.volume = 0.1; 
         voice.play();
         btn.innerHTML = "<span>❤️</span> Playing...";
     } else {
         voice.pause();
-        
-        // 2. Bring background music back to normal (30% volume)
-        if (bgMusic) bgMusic.volume = 0.1;
-        
+        if (bgMusic) bgMusic.volume = 1;
         btn.innerHTML = "<span>🔊</span> Listen to my voice";
     }
 
-    // 3. Reset volume automatically when the voice note ends
     voice.onended = () => {
         btn.innerHTML = "<span>🔊</span> Listen to my voice";
-        if (bgMusic) bgMusic.volume = 0.1;
+        if (bgMusic) bgMusic.volume = 1;
     };
 }
 
-// 3. START PHASE 1 (Welcome -> Second Page + MUSIC STARTS HERE)
+// 4. TRANSITIONS BETWEEN PAGES
 function startExperience() {
     const welcome = document.getElementById('welcome-screen');
     const second = document.getElementById('second-page');
-    const audio = document.getElementById('monAudio'); // Background music
+    const audio = document.getElementById('monAudio');
 
-    // --- MUSIC STARTS ON SECOND PAGE ---
     if(audio) { 
         audio.volume = 0.3; 
-        audio.play().catch(error => console.log("Audio play failed: ", error)); 
+        audio.play().catch(err => console.log("Audio play failed")); 
     }
 
     welcome.style.opacity = '0';
     setTimeout(() => {
         welcome.style.display = 'none';
         second.style.display = 'flex';
-        
-        // Ensure styling for centering (stacks them)
         second.style.flexDirection = 'column';
         second.style.justifyContent = 'center';
         second.style.alignItems = 'center';
 
         startLovingCounter();
 
-        // BALLOON EXPLOSION (19 Balloons)
         for(let k = 0; k < 19; k++) {
-            setTimeout(() => {
-                createSingleBalloon();
-            }, k * 100); 
+            setTimeout(() => { createSingleBalloon(); }, k * 100); 
         }
         
         setTimeout(() => { second.style.opacity = '1'; }, 50);
     }, 1000);
 }
 
-// 4. START PHASE 2 (Second Page -> Envelope/Main Content)
 function startMainExperience() {
     const second = document.getElementById('second-page');
     const main = document.getElementById('main-content');
     const voice = document.getElementById('voiceNote');
     const scroll = document.getElementById('emotional-scroll');
 
-    // Stop voice note if playing
     if (voice) voice.pause();
 
     second.style.opacity = '0';
@@ -100,7 +139,7 @@ function startMainExperience() {
     }, 1000);
 }
 
-// 5. TYPEWRITER ANIMATION
+// 5. ANIMATIONS & EFFECTS
 function typeWriter() {
     if (i < message.length) {
         document.getElementById("typewriter-text").innerHTML += message.charAt(i);
@@ -109,7 +148,6 @@ function typeWriter() {
     }
 }
 
-// 6. OPENING THE ENVELOPE
 function toggleEnvelope() {
     const env = document.getElementById('envelope');
     const typewriter = document.getElementById('typewriter-text');
@@ -125,7 +163,6 @@ function toggleEnvelope() {
     if (typewriter) typewriter.style.opacity = '0';
     if (scroll) scroll.style.opacity = '0';
 
-    // Increase music volume slightly when opening the letter
     let fadeIn = setInterval(() => {
         if (audio && audio.volume < 0.6) {
             audio.volume += 0.05;
@@ -135,33 +172,27 @@ function toggleEnvelope() {
     }, 400);
 
     if (polaroid) {
-        setTimeout(() => { 
-            polaroid.classList.add('polaroid-show'); 
-        }, 1500);
+        setTimeout(() => { polaroid.classList.add('polaroid-show'); }, 1500);
     }
     createHearts(); 
 }
 
-// 7. EXPLOSION OF HEARTS
 function createHearts() {
     const container = document.getElementById('hearts');
     const memories = ['❤️', '11/04/25', '✨', 'Hmiiiza', 'Manal', 'HOME', 'Love']; 
     
-    for (let i = 0; i < 40; i++) { 
+    for (let j = 0; j < 40; j++) { 
         const heart = document.createElement('div');
         heart.classList.add('heart');
         heart.innerHTML = memories[Math.floor(Math.random() * memories.length)];
         heart.style.left = Math.random() * 100 + 'vw';
-        heart.style.color = "rgba(255, 255, 255, 0.7)"; 
-        heart.style.textShadow = "0 0 10px rgba(255,255,255,0.5)";
         heart.style.animationDelay = Math.random() * 5 + 's';
-        
         container.appendChild(heart);
         setTimeout(() => { heart.remove(); }, 8000);
     }
 }
 
-// 8. THE ORIGINAL 2028 COUNTDOWN (PAGE 1)
+// 6. COUNTDOWNS
 function startMeetCountdown() {
     const meetDate = new Date("January 1, 2028 00:00:00").getTime();
     const countdownElement = document.getElementById('meet-countdown');
@@ -171,7 +202,6 @@ function startMeetCountdown() {
     setInterval(function() {
         const now = new Date().getTime();
         const distance = meetDate - now;
-
         const days = Math.floor(distance / (1000 * 60 * 60 * 24));
         const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
@@ -181,7 +211,6 @@ function startMeetCountdown() {
     }, 1000);
 }
 
-// 9. THE LOVING U COUNTER (PAGE 2)
 function startLovingCounter() {
     const lovingElement = document.getElementById('loving-u-counter');
     const startDate = new Date("April 16, 2025 00:00:00").getTime();
@@ -196,7 +225,6 @@ function startLovingCounter() {
     }, 1000);
 }
 
-// 10. SINGLE BALLOON GENERATOR
 function createSingleBalloon() {
     const container = document.getElementById('balloon-container');
     if (!container) return;
@@ -204,27 +232,21 @@ function createSingleBalloon() {
     const balloon = document.createElement('div');
     balloon.className = 'balloon';
     balloon.innerText = '19'; 
-    
     const startPos = Math.random() * 100;
     const duration = 8 + Math.random() * 7;
-    
     balloon.style.left = startPos + 'vw';
     balloon.style.animationDuration = duration + 's';
-    
     const colors = ['#ff69b4', '#ff1493', '#ffc0cb', '#fb6f92', '#ff85a1'];
     balloon.style.background = colors[Math.floor(Math.random() * colors.length)];
 
     container.appendChild(balloon);
     setTimeout(() => { balloon.remove(); }, duration * 1000);
 }
+
 function showFinalSecret() {
-
     alert("In every lifetime, I would choose you. Happy birthday, my soulmate. I'm counting the days until we finally meet. ❤️");
-
 }
 
-
-// TRIGGER ON LOAD
 document.addEventListener('DOMContentLoaded', () => {
     startMeetCountdown();
 });

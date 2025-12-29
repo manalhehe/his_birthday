@@ -7,18 +7,35 @@
     <link rel="stylesheet" href="index.css">
 </head>
 <body id="page-body">
+
+    <div id="lock-screen">
+    <div class="lock-box">
+        <span class="lock-icon">🔒</span>
+        <h2>Restricted Access</h2>
+        <p>Enter the password to unlock...<br></p>
+        
+        <input type="text" id="entry-pass" placeholder="Type the secret word...">
+
+        <button id="enter-btn" onclick="verifyPassword()">ENTER</button>
+
+        <div id="error-msg" style="display:none; color: #d32f2f; font-weight: bold; margin-top: 10px;">
+            U can do it Hmiiza! ❤️
+        </div>
+        
+        <div id="hint-msg" style="display:none; color: #880e4f; font-size: 0.8rem; margin-top: 10px; font-style: italic;">
+            Hint: The secret word between us... 🕊️
+        </div>
+    </div>
+</div>
+
     <div id="balloon-container"></div>
     <div id="bg-memgitory" class="background-photo"></div>
     <div class="vignette"></div>
 
-    <audio id="monAudio" loop>
-    <source src="audio/audio.mpeg" type="audio/mpeg">
-</audio>
+    <audio id="monAudio" loop><source src="audio/audio.mpeg" type="audio/mpeg"></audio>
+    <audio id="voiceNote"><source src="audio/MYVOICE.mpeg" type="audio/mpeg"></audio>
 
-<audio id="voiceNote">
-    <source src="audio/MYVOICE.mpeg" type="audio/mpeg">
-</audio>
-    <div id="welcome-screen">
+    <div id="welcome-screen" style="display: none; opacity: 0;">
         <div class="welcome-content">
             <h1>For someone special...</h1>
             <div id="meet-countdown">Loading countdown...</div>
@@ -33,13 +50,11 @@
                 The fact that you’ve received this link means today is your birthday! <br>
                 I prepared something special just for you... ❤️
             </p>
-            
             <button class="voice-btn" id="v-btn" onclick="playVoice()">
                 <span>🔊</span> Listen to my voice
             </button>
-
             <div id="loving-u-counter"></div> 
-            <br><br>
+            <br>
             <button class="start-btn" onclick="startMainExperience()">Click to see</button>
         </div>
     </div>
@@ -51,7 +66,6 @@
             <div class="envelope-container" id="envelope">
                 <div id="emotional-scroll" class="emotional-text">
                     <span>A message for you...</span>
-                    <span>From the bottom of my heart</span>
                     <span>Open me ❤️</span>
                 </div>
                 <div class="letter">
