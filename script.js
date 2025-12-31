@@ -1,38 +1,31 @@
 let i = 0;
-let message = "Happy birthDay, my love! I have prepared something special for you because distance means nothing when someone means everything. I hope you like it... <3"; 
+let message = "Happy birthDay, HAMZAAAAAA! I have prepared something special for you because distance means nothing when someone means everything. I hope you like it... <3"; 
 let speed = 70;
 let failCount = 0;
+let realPassword = ""; // This stores the actual "JOZI"
 
-// 1. LOCK SCREEN LOGIC (Password: JOZI)
+// 1. LOCK SCREEN LOGIC
+function handleHeartTyping(e) {
+    const input = e.target;
+    const hearts = "💖";
+    
+    // Logic to capture real characters while displaying hearts
+    if (input.value.length > realPassword.length) {
+        realPassword += input.value.slice(-1);
+    } else {
+        realPassword = realPassword.slice(0, input.value.length);
+    }
+    input.value = hearts.repeat(realPassword.length);
+}
+
 function verifyPassword() {
-    const passInput = document.getElementById('entry-pass');
-    const correctPass = "JOZI"; 
-
-    if (passInput.value.trim().toUpperCase() === correctPass) {
+    // IMPORTANT: Check realPassword, not the input value!
+    if (realPassword.trim().toUpperCase() === "JOZI") {
         unlockNow();
     } else {
         triggerFailure();
+        realPassword = ""; // Reset the secret string on failure
     }
-}
-
-// This allows him to just press the "Enter" key on his keyboard
-document.getElementById('entry-pass')?.addEventListener('keypress', function (e) {
-    if (e.key === 'Enter') {
-        verifyPassword();
-    }
-});
-
-function unlockNow() {
-    const lockScreen = document.getElementById('lock-screen');
-    const welcome = document.getElementById('welcome-screen');
-
-    lockScreen.classList.add('unlock-slide'); 
-    
-    setTimeout(() => {
-        lockScreen.style.display = 'none';
-        welcome.style.display = 'flex';
-        setTimeout(() => { welcome.style.opacity = '1'; }, 50);
-    }, 800);
 }
 
 function triggerFailure() {
@@ -42,18 +35,50 @@ function triggerFailure() {
     const passInput = document.getElementById('entry-pass');
 
     failCount++;
-    error.style.display = 'block';
-    lockBox.classList.add('shake-anim');
+    if (error) error.style.display = 'block';
+    if (lockBox) lockBox.classList.add('shake-anim');
 
-    if (failCount >= 2) { hint.style.display = 'block'; }
+    if (failCount >= 2 && hint) { hint.style.display = 'block'; }
 
     setTimeout(() => {
-        error.style.display = 'none';
-        lockBox.classList.remove('shake-anim');
-        if(passInput) passInput.value = "";
+        if (error) error.style.display = 'none';
+        if (lockBox) lockBox.classList.remove('shake-anim');
+        if (passInput) passInput.value = "";
     }, 2000);
 }
 
+function unlockNow() {
+    const lockScreen = document.getElementById('lock-screen');
+    const welcome = document.getElementById('welcome-screen');
+    lockScreen.classList.add('unlock-slide'); 
+    
+    setTimeout(() => {
+        lockScreen.style.display = 'none';
+        welcome.style.display = 'flex';
+        setTimeout(() => { welcome.style.opacity = '1'; }, 50);
+    }, 800);
+}
+
+// 2. INITIALIZATION (The "Brain" of the script)
+document.addEventListener('DOMContentLoaded', () => {
+    const passInput = document.getElementById('entry-pass');
+    
+    if (passInput) {
+        // Listen for typing to turn letters into hearts
+        passInput.addEventListener('input', handleHeartTyping);
+        
+        // Listen for "Enter" key
+        passInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                verifyPassword();
+            }
+        });
+    }
+    
+    startMeetCountdown();
+});
+
+// ... (Rest of your functions: mouse-trail, audio, transitions, counters etc. stay the same)
 
 // 2. MOUSE TRAIL
 document.addEventListener('mousemove', function(e) {
@@ -75,19 +100,24 @@ function playVoice() {
     if (!voice) return;
 
     if (voice.paused) {
+        // Lower background music so he can hear you clearly
         if (bgMusic) bgMusic.volume = 0.1; 
-        voice.play();
+        
+        voice.play().catch(error => console.log("Playback failed:", error));
         btn.innerHTML = "<span>❤️</span> Playing...";
+        
+        // When your voice note ends, reset everything
+        voice.onended = () => {
+            btn.innerHTML = "<span>🔊</span> Listen to my voice";
+            if (bgMusic) bgMusic.volume = 1.0; // Max volume is 1.0
+        };
+
     } else {
+        // If he clicks again, it pauses and music returns to normal
         voice.pause();
-        if (bgMusic) bgMusic.volume = 1;
+        if (bgMusic) bgMusic.volume = 1.0;
         btn.innerHTML = "<span>🔊</span> Listen to my voice";
     }
-
-    voice.onended = () => {
-        btn.innerHTML = "<span>🔊</span> Listen to my voice";
-        if (bgMusic) bgMusic.volume = 1;
-    };
 }
 
 // 4. TRANSITIONS BETWEEN PAGES

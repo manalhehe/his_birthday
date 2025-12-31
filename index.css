@@ -58,6 +58,34 @@ body {
     width: 80%; padding: 10px; margin: 15px 0;
     border: 2px solid #f8bbd0; border-radius: 50px; text-align: center;
 }
+#entry-pass {
+    width: 80%; 
+    padding: 12px; 
+    margin: 15px 0;
+    border: 2px solid #f8bbd0; 
+    border-radius: 50px; 
+    text-align: center;
+
+    /* THE MAGIC LINES */
+    -webkit-text-security: disc; /* This creates the dots */
+    font-family: "FontAwesome";  /* This changes the font */
+}
+
+/* This part replaces the standard 'dot' with a heart character */
+#entry-pass {
+    font-family: 'FontAwesome', 'Georgia', serif;
+}
+
+/* To make it show hearts specifically, we use a trick with a Heart Font 
+   or we can use the 'text-security' set to 'square' and style it. 
+   Most browsers support 'disc', 'circle', and 'square'. 
+*/
+
+#entry-pass::placeholder {
+    font-size: 16px;
+    letter-spacing: normal;
+    color: #ffb6c1;
+}
 
 /* KEEP THE REST OF YOUR CSS BELOW */
 /* ... your counters, buttons, envelope styles, etc ... */
